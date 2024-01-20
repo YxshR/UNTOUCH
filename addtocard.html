@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- (Same as previous head content) -->
+</head>
+<body>
+  <header>
+    <h1>Add to Cart Page with Payment</h1>
+  </header>
+
+  <section>
+    <!-- (Same as previous section) -->
+  </section>
+
+  <div class="payment-section">
+    <h2>Payment Information</h2>
+    <form id="paymentForm">
+      <label for="paymentMethod">Payment Method:</label>
+      <select id="paymentMethod" name="paymentMethod">
+        <option value="creditCard">Credit Card</option>
+        <option value="paypal">PayPal</option>
+        <!-- Add more payment options as needed -->
+      </select>
+
+      <label for="cardNumber">Card Number:</label>
+      <input type="text" id="cardNumber" name="cardNumber" placeholder="Enter card number" required>
+
+      <label for="expiryDate">Expiry Date:</label>
+      <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY" required>
+
+      <label for="cvv">CVV:</label>
+      <input type="number" id="cvv" name="cvv" placeholder="Enter CVV" required>
+
+      <button class="payment-btn" type="button" onclick="processPayment()">Proceed to Payment</button>
+    </form>
+  </div>
+
+  <footer>
+    &copy; 2024 Your Company Name
+  </footer>
+
+  <script>
+    function addToCart(productName, price, quantityId) {
+      // Your existing addToCart logic here
+
+      // Example: Construct the URL with parameters
+      const selectedProducts = encodeURIComponent(JSON.stringify([{ name: productName, price, quantity: document.getElementById(quantityId).value }]));
+      const paymentMethod = encodeURIComponent(document.getElementById("paymentMethod").value);
+
+      const url = `dashboard.html?products=${selectedProducts}&paymentMethod=${paymentMethod}`;
+      window.location.href = url;
+    }
+
+    function processPayment() {
+      // Your existing processPayment logic here
+    }
+  </script>
+</body>
+</html>

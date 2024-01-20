@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signup Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: url('pii.jpg') center/cover no-repeat; /* Replace 'background-image.jpg' with your image file */
+    }
+
+    .signup-container {
+      background-color: rgba(255, 255, 255, 0.8); /* Adjust the last value for the transparency level */
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 300px;
+    }
+
+    h2 {
+      color: #333;
+      text-align: left;
+    }
+
+    header {
+      background-color: #48434300; /* Adjust the last value for the transparency level */
+      color: #ffffff;
+      padding: 15px;
+      text-align: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000; /* Ensure the header stays on top of other elements */
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    label {
+      margin-top: 10px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      box-sizing: border-box;
+    }
+
+    #password {
+      position: relative;
+    }
+
+    #password-strength {
+      position: absolute;
+      top: 55px;
+      left: 0;
+      width: 100%;
+      font-size: 12px;
+      color: #333;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #3498db;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    .error-message {
+      color: #e74c3c;
+      margin-top: 10px;
+    }
+
+    .login-link {
+      margin-top: 15px;
+      text-align: left;
+    }
+
+    .login-link a {
+      color: #3498db;
+      text-decoration: none;
+    }
+
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+    <header>
+        <h1 href="home.html">UN-Touch</link></h1>
+      </header>
+  <div class="signup-container">
+    <h2>Signup</h2>
+    <form onsubmit="signup(event)">
+      <label for="username">Username:</label>
+      <input type="text" id="username" required>
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" pattern="^(?=.*\d)(?=.*[a-zA-Z]).{8,}$" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
+      <div id="password-strength"></div>
+
+      <label for="email">Email:</label>
+    <input type="email" id="email" pattern="[a-zA-Z0-9._%+-]+@+[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" title="Enter a valid email address with @" required>
+
+      <label for="phone">Phone Number:</label>
+      <select id="country-code" required>
+        <option value="+1">United States (+1)</option>
+        <option value="+44">United Kingdom (+44)</option>
+      </select>
+<input type="text" id="phone" pattern="[0-9]{8,}" title="Phone number must contain at least 8 digits" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+
+
+      <button type="submit">Signup</button>
+
+      <p class="error-message" id="error-message"></p>
+
+    </form>
+
+    <div class="login-link">
+      Already have an account? <a href="login.html">Login</a>
+    </div>
+  </div>
+
+  <script>
+    function signup(event) {
+      event.preventDefault();
+
+      var username = document.getElementById('username').value;
+      var password = document.getElementById('password').value;
+      var email = document.getElementById('email').value;
+      var countryCode = document.getElementById('country-code').value;
+      var phone = document.getElementById('phone').value;
+      var errorMessageElement = document.getElementById('error-message');
+
+      var passwordStrength = calculatePasswordStrength(password);
+      var passwordStrengthElement = document.getElementById('password-strength');
+      passwordStrengthElement.textContent = `Password Strength: ${passwordStrength}`;
+
+      if (username && password && email && countryCode && phone) {
+        if (passwordStrength >= 2) {
+          alert('Signup successful!');
+          window.location.href = 'dashboard.html';
+        } else {
+          errorMessageElement.textContent = 'Password is not strong enough. Please choose a stronger password.';
+        }
+      } else {
+        errorMessageElement.textContent = 'All fields are required. Please fill them out.';
+      }
+    }
+
+    function calculatePasswordStrength(password) {
+      var regex = /^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/;
+      var hasNumber = /\d/.test(password);
+      var hasUpperCase = /[A-Z]/.test(password);
+      var hasLowerCase = /[a-z]/.test(password);
+
+      var strength = 0;
+      if (regex.test(password)) strength++;
+      if (hasNumber) strength++;
+      if (hasUpperCase) strength++;
+      if (hasLowerCase) strength++;
+
+      return strength;
+    }
+
+
+
+
+
+    // server.js
+
+const express = require('express');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Connect to MongoDB
+mongoose.connect('mongodb://localhost:27017/mydatabase', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+// Create a MongoDB schema and model
+const UserSchema = new mongoose.Schema({
+  username: String,
+  email: String,
+  password: String,
+});
+
+const User = mongoose.model('User', UserSchema);
+
+// Middleware
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('public')); // You can create a 'public' folder for your HTML, CSS, and client-side scripts
+
+// Routes
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/public/signup.html');
+});
+
+app.post('/signup', (req, res) => {
+  const newUser = new User({
+    username: req.body.username,
+    email: req.body.email,
+    password: req.body.password,
+  });
+
+  newUser.save((err) => {
+    if (err) {
+      console.error(err);
+      res.send('Error occurred while signing up.');
+    } else {
+      res.send('Signup successful!');
+    }
+  });
+});
+
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
+
+  </script>
+
+
+
+</body>
+</html>

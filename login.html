@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: url('pii.jpg') center/cover no-repeat; /* Replace 'background-image.jpg' with your image file */
+    }
+
+    header {
+      background-color: #48434300; /* Adjust the last value for the transparency level */
+      color: #ffffff;
+      padding: 15px;
+      text-align: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000; /* Ensure the header stays on top of other elements */
+    }
+
+    .login-container {
+      background-color: rgba(255, 255, 255, 0.8); /* Adjust the last value for the transparency level */
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      text-align: left; /* Align the form to the left */
+      margin-top: 60px; /* Adjust this value based on the header's height */
+    }
+
+    h2 {
+      color: #333;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      margin-top: 10px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      box-sizing: border-box;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #3498db;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    .error-message {
+      color: #e74c3c;
+      margin-top: 10px;
+    }
+
+    .signup-link {
+      margin-top: 15px;
+      color: #3498db;
+      text-decoration: none;
+    }
+
+    .signup-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>UN-Touch</h1>
+  </header>
+
+  <div class="login-container">
+    <h2>Login</h2>
+    <form onsubmit="login(event)">
+      <label for="username">Username:</label>
+      <input type="text" id="username" required>
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" required>
+
+      <button type="submit">Login</button>
+
+      <p class="error-message" id="error-message"></p>
+
+    </form>
+
+    <div class="login-link">
+      Dont't have an account? <a href="signup.html">Signup</a>
+    </div>
+  </div>
+
+  <script>
+    function login(event) {
+      event.preventDefault();
+
+      var username = document.getElementById('username').value;
+      var password = document.getElementById('password').value;
+      var errorMessageElement = document.getElementById('error-message');
+
+      // Your login logic goes here
+      // For demonstration purposes, let's assume a simple validation
+      if (username === 'user' && password === 'password') {
+        alert('Login successful!');
+        // Redirect to the dashboard page
+        window.location.href = 'dashboard.html';
+      } else {
+        errorMessageElement.textContent = 'Invalid username or password. Please try again.';
+      }
+    }
+  </script>
+</body>
+</html>
